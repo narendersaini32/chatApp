@@ -8,7 +8,7 @@ const Main = styled.div`
   flex-direction: column;
 `;
 const StyledTypography = styled.div`
-${props => `
+  ${props => `
 margin-left: 20px;
 font-size: ${props.fontSize}px;
 font-weight: 400;
@@ -45,9 +45,9 @@ const ChatItem = styled.div`
   border-radius: 10px;
   width: 376px;
   height: 77px;
-  display:flex;
-  margin-top:10px;
-  margin-bottom:10px;
+  display: flex;
+  margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
 const ProfileDiv = styled.div`
@@ -65,10 +65,16 @@ const StyledImg = styled.img`
 `;
 
 const ProfileWrapper = styled.div`
-align-items: center;
-display: flex;
+  align-items: center;
+  display: flex;
 `;
-
+const StyledPosition = styled.div`
+  width: 3px;
+  position: relative;
+  right: -42%;
+  height: 19px;
+  background: black;
+`;
 const TextWrapper = styled.div``;
 const ChatList = () => (
   <Main>
@@ -85,8 +91,12 @@ const ChatList = () => (
           </ProfileDiv>
         </ProfileWrapper>
         <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>Johnson</StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>Sample text of chatting</StyledTypography>
+          <StyledTypography fontSize={18} marginTop={17}>
+            Johnson
+          </StyledTypography>
+          <StyledTypography fontSize={15} opacity={0.7}>
+            Sample text of chatting
+          </StyledTypography>
         </TextWrapper>
       </ChatItem>
       <ChatItem>
@@ -96,8 +106,12 @@ const ChatList = () => (
           </ProfileDiv>
         </ProfileWrapper>
         <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>Steave</StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>Sample text of chatting</StyledTypography>
+          <StyledTypography fontSize={18} marginTop={17}>
+            Steave
+          </StyledTypography>
+          <StyledTypography fontSize={15} opacity={0.7}>
+            Sample text of chatting
+          </StyledTypography>
         </TextWrapper>
       </ChatItem>
       <ChatItem>
@@ -107,8 +121,28 @@ const ChatList = () => (
           </ProfileDiv>
         </ProfileWrapper>
         <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>Alex</StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>Sample text of chatting</StyledTypography>
+          <StyledTypography fontSize={18} marginTop={17}>
+            Alex
+          </StyledTypography>
+          <StyledTypography fontSize={15} opacity={0.7}>
+            Sample text of chatting
+          </StyledTypography>
+        </TextWrapper>
+        <StyledPosition />
+      </ChatItem>
+      <ChatItem>
+        <ProfileWrapper>
+          <ProfileDiv>
+            <StyledImg src="/images/male.png" />
+          </ProfileDiv>
+        </ProfileWrapper>
+        <TextWrapper>
+          <StyledTypography fontSize={18} marginTop={17}>
+            Deadpool
+          </StyledTypography>
+          <StyledTypography fontSize={15} opacity={0.7}>
+            Sample text of chatting
+          </StyledTypography>
         </TextWrapper>
       </ChatItem>
       <ChatItem>
@@ -118,22 +152,14 @@ const ChatList = () => (
           </ProfileDiv>
         </ProfileWrapper>
         <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>Deadpool</StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>Sample text of chatting</StyledTypography>
+          <StyledTypography fontSize={18} marginTop={17}>
+            Tony Stark
+          </StyledTypography>
+          <StyledTypography fontSize={15} opacity={0.7}>
+            Sample text of chatting
+          </StyledTypography>
         </TextWrapper>
       </ChatItem>
-      <ChatItem>
-        <ProfileWrapper>
-          <ProfileDiv>
-            <StyledImg src="/images/male.png" />
-          </ProfileDiv>
-        </ProfileWrapper>
-        <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>Tony Stark</StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>Sample text of chatting</StyledTypography>
-        </TextWrapper>
-      </ChatItem>
-
     </ChatItemWrapper>
   </Main>
 );

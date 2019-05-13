@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import SideBar from '../sidebar';
 import ChatList from '../chatList';
+import ChatScreen from '../chatScreen';
 
 const Main = styled.div`
   width: 100%;
@@ -16,6 +17,7 @@ const Home = () => (
   <Main>
     <SideBar />
     <ChatList />
+    <ChatScreen />
   </Main>
 );
 export default Home;
