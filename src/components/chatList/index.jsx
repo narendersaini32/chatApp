@@ -17,11 +17,12 @@ opacity: ${props.opacity || 1};
 `}
 `;
 const StyledSearchBar = styled.input`
-  width: 200px;
+  width: 100%;
   height: 34px;
   background: #ede6fd;
   border: 0px;
   outline: none;
+  border-radius: 25px;
   margin-left: 30px;
 `;
 const StyledSearchBarWrapper = styled.div`
@@ -30,6 +31,7 @@ const StyledSearchBarWrapper = styled.div`
   display: flex;
   align-items: center;
   margin-top: 22px;
+  border-radius: 25px;
 `;
 const StyledI = styled.i`
   opacity: 0.7;

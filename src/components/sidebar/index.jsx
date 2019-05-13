@@ -32,6 +32,7 @@ const StyledI = styled.i`
   margin-left: ${props => props.marginLeft || 0}px;
   opacity: 0.7;
   cursor: pointer;
+  margin-right:${props => props.marginRight || 0}px;
 `;
 
 const MyProfileItems = styled.div`
@@ -58,6 +59,10 @@ font-size: 17px;
     font-weight: 100;
     margin: 5px;
     cursor:pointer;
+    &: hover {
+      color: #9f6ee0;
+    }
+    
 `;
 class SideBar extends PureComponent {
   state={};
@@ -77,15 +82,15 @@ class SideBar extends PureComponent {
             <StyledI id="myProfileItems" marginLeft={20} className={iconName} onClick={() => { this.setState({ showMyProfile: !showMyProfile }); }} />
             <MyProfileItems showMyProfile={showMyProfile}>
               <MyProfileItem>
-                <StyledI className="far fa-user-circle" />
+                <StyledI className="far fa-user-circle" marginRight={6} />
                   My Profile
               </MyProfileItem>
               <MyProfileItem>
-                <StyledI className="far fa-question-circle" />
+                <StyledI className="far fa-question-circle" marginRight={6} />
                     Faq
               </MyProfileItem>
               <MyProfileItem>
-                <StyledI className="fas fa-sign-out-alt" />
+                <StyledI className="fas fa-sign-out-alt" marginRight={6} />
                     Logout
               </MyProfileItem>
             </MyProfileItems>
