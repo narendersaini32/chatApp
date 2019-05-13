@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import MenuItem from './menuItem';
 
@@ -29,19 +29,71 @@ const NameAndIconWrapper = styled.div`
   margin-top: 4%;
 `;
 const StyledI = styled.i`
-  margin-left: 20px;
+  margin-left: ${props => props.marginLeft || 0}px;
   opacity: 0.7;
+  cursor: pointer;
 `;
-const SideBar = () => (
-  <StyledSideBar>
-    <ProfileDiv>
-      <StyledImg src="/images/male.png" />
-      <NameAndIconWrapper>
-        <StyledTypography>Naredner Saini </StyledTypography>
-        <StyledI className="fas fa-chevron-down" />
-      </NameAndIconWrapper>
-    </ProfileDiv>
-    <MenuItem />
-  </StyledSideBar>
-);
+
+const MyProfileItems = styled.div`
+${props => `
+visibility: ${props.showMyProfile ? 'visible' : 'hidden'};
+width: 110px;
+color: #fff;
+text-align: center;
+border-radius: 6px;
+padding: 8px 0;
+position: absolute;
+z-index: 1;
+margin-left: 89%;
+margin-top: 13%;
+box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.31);
+display: flex;
+flex-direction: column;
+align-items: end;
+`}
+`;
+const MyProfileItem = styled.div`
+font-size: 17px;
+    color: black;
+    font-weight: 100;
+    margin: 5px;
+    cursor:pointer;
+`;
+class SideBar extends PureComponent {
+  state={};
+
+  render() {
+    const { showMyProfile } = this.state;
+    document.addEventListener('click', (e) => {
+      if (e.target.id !== 'myProfileItems') { this.setState({ showMyProfile: false }); }
+    }, false);
+    const iconName = showMyProfile ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+    return (
+      <StyledSideBar>
+        <ProfileDiv>
+          <StyledImg src="/images/male.png" />
+          <NameAndIconWrapper>
+            <StyledTypography>Naredner Saini </StyledTypography>
+            <StyledI id="myProfileItems" marginLeft={20} className={iconName} onClick={() => { this.setState({ showMyProfile: !showMyProfile }); }} />
+            <MyProfileItems showMyProfile={showMyProfile}>
+              <MyProfileItem>
+                <StyledI className="far fa-user-circle" />
+                  My Profile
+              </MyProfileItem>
+              <MyProfileItem>
+                <StyledI className="far fa-question-circle" />
+                    Faq
+              </MyProfileItem>
+              <MyProfileItem>
+                <StyledI className="fas fa-sign-out-alt" />
+                    Logout
+              </MyProfileItem>
+            </MyProfileItems>
+          </NameAndIconWrapper>
+        </ProfileDiv>
+        <MenuItem />
+      </StyledSideBar>
+    );
+  }
+}
 export default SideBar;
