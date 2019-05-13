@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import Users from './user';
 
 const Main = styled.div`
   display: flex;
   margin-top: 10%;
   margin-left: 7%;
   flex-direction: column;
+  height:542px;
 `;
 const StyledTypography = styled.div`
   ${props => `
@@ -32,6 +34,7 @@ const StyledSearchBarWrapper = styled.div`
   align-items: center;
   margin-top: 22px;
   border-radius: 25px;
+  width:376px;
 `;
 const StyledI = styled.i`
   opacity: 0.7;
@@ -78,91 +81,49 @@ const StyledPosition = styled.div`
   background: black;
 `;
 const TextWrapper = styled.div``;
-const ChatList = () => (
-  <Main>
-    <StyledTypography fontSize={21}>Chats</StyledTypography>
-    <StyledSearchBarWrapper>
-      <StyledI className="fas fa-search" />
-      <StyledSearchBar placeholder="Search" />
-    </StyledSearchBarWrapper>
-    <ChatItemWrapper>
-      <ChatItem>
-        <ProfileWrapper>
-          <ProfileDiv>
-            <StyledImg src="/images/male.png" />
-          </ProfileDiv>
-        </ProfileWrapper>
-        <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>
-            Johnson
-          </StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>
-            Sample text of chatting
-          </StyledTypography>
-        </TextWrapper>
-      </ChatItem>
-      <ChatItem>
-        <ProfileWrapper>
-          <ProfileDiv>
-            <StyledImg src="/images/male.png" />
-          </ProfileDiv>
-        </ProfileWrapper>
-        <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>
-            Steave
-          </StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>
-            Sample text of chatting
-          </StyledTypography>
-        </TextWrapper>
-      </ChatItem>
-      <ChatItem>
-        <ProfileWrapper>
-          <ProfileDiv>
-            <StyledImg src="/images/male.png" />
-          </ProfileDiv>
-        </ProfileWrapper>
-        <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>
-            Alex
-          </StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>
-            Sample text of chatting
-          </StyledTypography>
-        </TextWrapper>
-        <StyledPosition />
-      </ChatItem>
-      <ChatItem>
-        <ProfileWrapper>
-          <ProfileDiv>
-            <StyledImg src="/images/male.png" />
-          </ProfileDiv>
-        </ProfileWrapper>
-        <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>
-            Deadpool
-          </StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>
-            Sample text of chatting
-          </StyledTypography>
-        </TextWrapper>
-      </ChatItem>
-      <ChatItem>
-        <ProfileWrapper>
-          <ProfileDiv>
-            <StyledImg src="/images/male.png" />
-          </ProfileDiv>
-        </ProfileWrapper>
-        <TextWrapper>
-          <StyledTypography fontSize={18} marginTop={17}>
-            Tony Stark
-          </StyledTypography>
-          <StyledTypography fontSize={15} opacity={0.7}>
-            Sample text of chatting
-          </StyledTypography>
-        </TextWrapper>
-      </ChatItem>
-    </ChatItemWrapper>
-  </Main>
-);
+class ChatList extends PureComponent {
+  state={ users: Users };
+
+  handleSearch = (event) => {
+    const searcjQery = event.target.value.toLowerCase();
+    const users = Users.filter((el) => {
+      const searchValue = el.toLowerCase();
+      return searchValue.indexOf(searcjQery) !== -1;
+    });
+    this.setState({
+      users,
+    });
+  }
+
+  render() {
+    const { users } = this.state;
+    return (
+      <Main>
+        <StyledTypography fontSize={21}>Chats</StyledTypography>
+        <StyledSearchBarWrapper>
+          <StyledI className="fas fa-search" />
+          <StyledSearchBar placeholder="Search" onChange={this.handleSearch} />
+        </StyledSearchBarWrapper>
+        <ChatItemWrapper>
+          {users.map((name, index) => (
+            <ChatItem key={name + Number(index)}>
+              <ProfileWrapper>
+                <ProfileDiv>
+                  <StyledImg src="/images/male.png" />
+                </ProfileDiv>
+              </ProfileWrapper>
+              <TextWrapper>
+                <StyledTypography fontSize={18} marginTop={17}>{name}</StyledTypography>
+                <StyledTypography fontSize={15} opacity={0.7}>
+              Sample text of chatting
+                </StyledTypography>
+              </TextWrapper>
+              {index === 2 && <StyledPosition />}
+            </ChatItem>
+          ))}
+        </ChatItemWrapper>
+      </Main>
+    );
+  }
+}
 export default ChatList;
