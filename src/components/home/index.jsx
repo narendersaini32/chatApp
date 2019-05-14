@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import SideBar from '../sidebar';
 import ChatList from '../chatList';
@@ -13,11 +13,25 @@ const Main = styled.div`
 `;
 
 
-const Home = () => (
-  <Main>
-    <SideBar />
-    <ChatList />
-    <ChatScreen />
-  </Main>
-);
+class Home extends PureComponent {
+  state={ activeUserId: 0 }
+
+  handleActiveUserId = (activeUserId) => {
+    this.setState({ activeUserId });
+  }
+
+  render() {
+    const { activeUserId } = this.state;
+    return (
+      <Main>
+        <SideBar />
+        <ChatList
+          handleActiveUserId={this.handleActiveUserId}
+          activeUserId={activeUserId}
+        />
+        <ChatScreen activeUserId={activeUserId} />
+      </Main>
+    );
+  }
+}
 export default Home;

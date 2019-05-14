@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
+import Users from '../chatList/user';
 
 const Main = styled.div`
   margin-top: 10%;
@@ -96,89 +98,95 @@ right: 54px;
 height: 19px;
 background: black;
 `;
-const ChatScreen = () => (
-  <Main>
-    <StyledTypography>Deadpool</StyledTypography>
-    <ChatHistory>
-      <LeftAlign>
-        <ProfileWrapper>
-          <ProfileDiv>
-            <StyledImg src="/images/male.png" />
-          </ProfileDiv>
-          <StyledTypography fontSize={15} opacity={0.7}>
+const ChatScreen = (props) => {
+  const { activeUserId } = props;
+  return (
+    <Main>
+      <StyledTypography>{Users[activeUserId]}</StyledTypography>
+      <ChatHistory>
+        <LeftAlign>
+          <ProfileWrapper>
+            <ProfileDiv>
+              <StyledImg src="/images/male.png" />
+            </ProfileDiv>
+            <StyledTypography fontSize={15} opacity={0.7}>
             09:34
-          </StyledTypography>
-        </ProfileWrapper>
-        <BackGround color="#c4c4c4">
-          <StyledTypography fontSize={15}>Here we go again...</StyledTypography>
-        </BackGround>
-      </LeftAlign>
-      <RightAlign>
-        <BackGround color="#327ED8">
-          <StyledTypography fontSize={15} color="white">
+            </StyledTypography>
+          </ProfileWrapper>
+          <BackGround color="#c4c4c4">
+            <StyledTypography fontSize={15}>Here we go again...</StyledTypography>
+          </BackGround>
+        </LeftAlign>
+        <RightAlign>
+          <BackGround color="#327ED8">
+            <StyledTypography fontSize={15} color="white">
             I do not know you.
-          </StyledTypography>
-        </BackGround>
-        <StyledTypography float="right" fontSize={15} opacity={0.7}>
+            </StyledTypography>
+          </BackGround>
+          <StyledTypography float="right" fontSize={15} opacity={0.7}>
           09:34
-        </StyledTypography>
-      </RightAlign>
-      <StyledPosition />
+          </StyledTypography>
+        </RightAlign>
+        <StyledPosition />
 
-      <LeftAlign>
-        <ProfileWrapper>
-          <ProfileDiv>
-            <StyledImg src="/images/male.png" />
-          </ProfileDiv>
-          <StyledTypography fontSize={15} opacity={0.7}>
+        <LeftAlign>
+          <ProfileWrapper>
+            <ProfileDiv>
+              <StyledImg src="/images/male.png" />
+            </ProfileDiv>
+            <StyledTypography fontSize={15} opacity={0.7}>
             09:34
-          </StyledTypography>
-        </ProfileWrapper>
-        <BackGround color="#c4c4c4">
-          <StyledTypography fontSize={15}>ok</StyledTypography>
-        </BackGround>
-      </LeftAlign>
-      <RightAlign>
-        <BackGround color="#327ED8">
-          <StyledTypography fontSize={15} color="white">
+            </StyledTypography>
+          </ProfileWrapper>
+          <BackGround color="#c4c4c4">
+            <StyledTypography fontSize={15}>ok</StyledTypography>
+          </BackGround>
+        </LeftAlign>
+        <RightAlign>
+          <BackGround color="#327ED8">
+            <StyledTypography fontSize={15} color="white">
             I can understand.
-          </StyledTypography>
-        </BackGround>
-        <StyledTypography float="right" fontSize={15} opacity={0.7}>
+            </StyledTypography>
+          </BackGround>
+          <StyledTypography float="right" fontSize={15} opacity={0.7}>
           09:34
-        </StyledTypography>
-      </RightAlign>
-      <LeftAlign>
-        <ProfileWrapper>
-          <ProfileDiv>
-            <StyledImg src="/images/male.png" />
-          </ProfileDiv>
-          <StyledTypography fontSize={15} opacity={0.7}>
+          </StyledTypography>
+        </RightAlign>
+        <LeftAlign>
+          <ProfileWrapper>
+            <ProfileDiv>
+              <StyledImg src="/images/male.png" />
+            </ProfileDiv>
+            <StyledTypography fontSize={15} opacity={0.7}>
             09:34
-          </StyledTypography>
-        </ProfileWrapper>
-        <BackGround color="#c4c4c4">
-          <StyledTypography fontSize={15}>
+            </StyledTypography>
+          </ProfileWrapper>
+          <BackGround color="#c4c4c4">
+            <StyledTypography fontSize={15}>
             I will write some random text for testing here.
-          </StyledTypography>
-        </BackGround>
-      </LeftAlign>
-      <RightAlign>
-        <BackGround color="#327ED8">
-          <StyledTypography fontSize={15} color="white">
+            </StyledTypography>
+          </BackGround>
+        </LeftAlign>
+        <RightAlign>
+          <BackGround color="#327ED8">
+            <StyledTypography fontSize={15} color="white">
             Ok.
-          </StyledTypography>
-        </BackGround>
-        <StyledTypography float="right" fontSize={15} opacity={0.7}>
+            </StyledTypography>
+          </BackGround>
+          <StyledTypography float="right" fontSize={15} opacity={0.7}>
           09:34
-        </StyledTypography>
-      </RightAlign>
-    </ChatHistory>
-    <StyledSearchBarWrapper>
-      <StyledI className="far fa-smile-wink" />
-      <StyledSearchBar placeholder="Type a message..." />
-      <StyledSendIcon className="far fa-paper-plane" />
-    </StyledSearchBarWrapper>
-  </Main>
-);
+          </StyledTypography>
+        </RightAlign>
+      </ChatHistory>
+      <StyledSearchBarWrapper>
+        <StyledI className="far fa-smile-wink" />
+        <StyledSearchBar placeholder="Type a message..." />
+        <StyledSendIcon className="far fa-paper-plane" />
+      </StyledSearchBarWrapper>
+    </Main>
+  );
+};
+ChatScreen.propTypes = {
+  activeUserId: PropTypes.number.isRequired,
+};
 export default ChatScreen;

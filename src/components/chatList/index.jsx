@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import Users from './user';
 
 const Main = styled.div`
@@ -43,16 +44,44 @@ const StyledI = styled.i`
 
 const ChatItemWrapper = styled.div`
   margin-top: 14px;
+  overflow: scroll;
+  overflow-x: hidden;
+  height:422px;
+  width: 102%;
+  /* width */
+&::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+&::-webkit-scrollbar-track {
+  background: transparent; 
+}
+ 
+/* Handle */
+&::-webkit-scrollbar-thumb {
+  background:#9f6ee0; 
+}
+
+/* Handle on hover */
+&::-webkit-scrollbar-thumb:hover {
+  background: #e58abd;; 
+}
 `;
 const ChatItem = styled.div`
   background: #ffffff;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  box-shadow: ${props => `0px  4px 4px ${props.active ? 'rgb(166, 109, 219)' : 'rgba(0, 0, 0, 0.25)'} `};
   border-radius: 10px;
   width: 376px;
   height: 77px;
   display: flex;
   margin-top: 10px;
   margin-bottom: 10px;
+  transition: 0.1s ease;
+  cursor:pointer;
+  &:hover {
+    transform: scale(1.02);
+  }
 `;
 
 const ProfileDiv = styled.div`
@@ -73,13 +102,6 @@ const ProfileWrapper = styled.div`
   align-items: center;
   display: flex;
 `;
-const StyledPosition = styled.div`
-  width: 3px;
-  position: relative;
-  right: -42%;
-  height: 19px;
-  background: black;
-`;
 const TextWrapper = styled.div``;
 class ChatList extends PureComponent {
   state={ users: Users };
@@ -97,6 +119,7 @@ class ChatList extends PureComponent {
 
   render() {
     const { users } = this.state;
+    const { handleActiveUserId, activeUserId } = this.props;
     return (
       <Main>
         <StyledTypography fontSize={21}>Chats</StyledTypography>
@@ -106,7 +129,11 @@ class ChatList extends PureComponent {
         </StyledSearchBarWrapper>
         <ChatItemWrapper>
           {users.map((name, index) => (
-            <ChatItem key={name + Number(index)}>
+            <ChatItem
+              key={name + Number(index)}
+              onClick={() => { handleActiveUserId(index); }}
+              active={activeUserId === index}
+            >
               <ProfileWrapper>
                 <ProfileDiv>
                   <StyledImg src="/images/male.png" />
@@ -118,7 +145,7 @@ class ChatList extends PureComponent {
               Sample text of chatting
                 </StyledTypography>
               </TextWrapper>
-              {index === 2 && <StyledPosition />}
+              {/* {index === 2 && <StyledPosition />} */}
             </ChatItem>
           ))}
         </ChatItemWrapper>
@@ -126,4 +153,8 @@ class ChatList extends PureComponent {
     );
   }
 }
+ChatList.propTypes = {
+  handleActiveUserId: PropTypes.func.isRequired,
+  activeUserId: PropTypes.number.isRequired,
+};
 export default ChatList;
