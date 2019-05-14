@@ -57,8 +57,8 @@ const ChatItem = styled.div`
   width: 300px;
   height: 77px;
   display: flex;
-  margin-top: 10px;
-  margin-bottom: 10px;
+  margin-top: 20px;
+  margin-bottom: 15px;
   transition: 0.1s ease;
   cursor:pointer;
   margin-left: 4px;

@@ -79,7 +79,7 @@ class SideBar extends PureComponent {
         <ProfileDiv>
           <StyledImg src="https://avatars0.githubusercontent.com/u/210?v=4" />
           <NameAndIconWrapper>
-            <StyledTypography>Naredner Saini </StyledTypography>
+            <StyledTypography>Narender Saini </StyledTypography>
             <StyledI id="myProfileItems" marginLeft={20} className={iconName} onClick={() => { this.setState({ showMyProfile: !showMyProfile }); }} />
             <MyProfileItems showMyProfile={showMyProfile}>
               <MyProfileItem>
