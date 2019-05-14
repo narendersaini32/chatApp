@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Users from '../chatList/user';
+import Chats from './chat';
 
 const Main = styled.div`
   margin-top: 4%;
@@ -101,169 +102,62 @@ const StyledSendIcon = styled.i`
 `;
 
 
-const ChatScreen = (props) => {
-  const { activeUserId } = props;
-  const { login: name, avatar_url: url } = Users[activeUserId];
-  return (
-    <Main>
-      <StyledTypography>{name}</StyledTypography>
-      <ChatHistory>
-        <LeftAlign>
-          <ProfileWrapper>
-            <ProfileDiv>
-              <StyledImg src={url} />
-            </ProfileDiv>
-            <StyledTypography fontSize={15} opacity={0.7}>
-            09:34
-            </StyledTypography>
-          </ProfileWrapper>
-          <BackGround color="#c4c4c4">
-            <StyledTypography fontSize={15}>Here we go again...</StyledTypography>
-          </BackGround>
-        </LeftAlign>
-        <RightAlign>
-          <BackGround color="#327ED8">
-            <StyledTypography fontSize={15} color="white">
-            I do not know you.
-            </StyledTypography>
-          </BackGround>
-          <StyledTypography float="right" fontSize={15} opacity={0.7}>
-          09:34
-          </StyledTypography>
-        </RightAlign>
+class ChatScreen extends PureComponent {
+  state={ chat: Chats }
 
-        <LeftAlign>
-          <ProfileWrapper>
-            <ProfileDiv>
-              <StyledImg src={url} />
-            </ProfileDiv>
-            <StyledTypography fontSize={15} opacity={0.7}>
-            09:34
-            </StyledTypography>
-          </ProfileWrapper>
-          <BackGround color="#c4c4c4">
-            <StyledTypography fontSize={15}>ok</StyledTypography>
-          </BackGround>
-        </LeftAlign>
-        <RightAlign>
-          <BackGround color="#327ED8">
-            <StyledTypography fontSize={15} color="white">
-            I can understand.
-            </StyledTypography>
-          </BackGround>
-          <StyledTypography float="right" fontSize={15} opacity={0.7}>
-          09:34
-          </StyledTypography>
-        </RightAlign>
-        <LeftAlign>
-          <ProfileWrapper>
-            <ProfileDiv>
-              <StyledImg src={url} />
-            </ProfileDiv>
-            <StyledTypography fontSize={15} opacity={0.7}>
-            09:34
-            </StyledTypography>
-          </ProfileWrapper>
-          <BackGround color="#c4c4c4">
-            <StyledTypography fontSize={15}>
-              <span role="img" aria-labelledby="">😁</span>
-            </StyledTypography>
-          </BackGround>
-        </LeftAlign>
-        <RightAlign>
-          <BackGround color="#327ED8">
-            <StyledTypography fontSize={15} color="white">
-            Ok.
-            </StyledTypography>
-          </BackGround>
-          <StyledTypography float="right" fontSize={15} opacity={0.7}>
-          09:34
-          </StyledTypography>
-        </RightAlign>
-        <LeftAlign>
-          <ProfileWrapper>
-            <ProfileDiv>
-              <StyledImg src={url} />
-            </ProfileDiv>
-            <StyledTypography fontSize={15} opacity={0.7}>
-            09:34
-            </StyledTypography>
-          </ProfileWrapper>
-          <BackGround color="#c4c4c4">
-            <StyledTypography fontSize={15}>
-              <span role="img" aria-labelledby="">😁</span>
-            </StyledTypography>
-          </BackGround>
-        </LeftAlign>
-        <RightAlign>
-          <BackGround color="#327ED8">
-            <StyledTypography fontSize={15} color="white">
-            Ok.
-            </StyledTypography>
-          </BackGround>
-          <StyledTypography float="right" fontSize={15} opacity={0.7}>
-          09:34
-          </StyledTypography>
-        </RightAlign>
-        <LeftAlign>
-          <ProfileWrapper>
-            <ProfileDiv>
-              <StyledImg src={url} />
-            </ProfileDiv>
-            <StyledTypography fontSize={15} opacity={0.7}>
-            09:34
-            </StyledTypography>
-          </ProfileWrapper>
-          <BackGround color="#c4c4c4">
-            <StyledTypography fontSize={15}>
-              <span role="img" aria-labelledby="">😁</span>
-            </StyledTypography>
-          </BackGround>
-        </LeftAlign>
-        <RightAlign>
-          <BackGround color="#327ED8">
-            <StyledTypography fontSize={15} color="white">
-            Ok.
-            </StyledTypography>
-          </BackGround>
-          <StyledTypography float="right" fontSize={15} opacity={0.7}>
-          09:34
-          </StyledTypography>
-        </RightAlign>
-        <LeftAlign>
-          <ProfileWrapper>
-            <ProfileDiv>
-              <StyledImg src={url} />
-            </ProfileDiv>
-            <StyledTypography fontSize={15} opacity={0.7}>
-            09:34
-            </StyledTypography>
-          </ProfileWrapper>
-          <BackGround color="#c4c4c4">
-            <StyledTypography fontSize={15}>
-              <span role="img" aria-labelledby="">😁</span>
-            </StyledTypography>
-          </BackGround>
-        </LeftAlign>
-        <RightAlign>
-          <BackGround color="#327ED8">
-            <StyledTypography fontSize={15} color="white">
-            Ok.
-            </StyledTypography>
-          </BackGround>
-          <StyledTypography float="right" fontSize={15} opacity={0.7}>
-          09:34
-          </StyledTypography>
-        </RightAlign>
-      </ChatHistory>
-      <StyledSearchBarWrapper>
-        <StyledI className="far fa-smile-wink" />
-        <StyledSearchBar placeholder="Type a message..." />
-        <StyledSendIcon className="far fa-paper-plane" />
-      </StyledSearchBarWrapper>
-    </Main>
-  );
-};
+  render() {
+    const { chat } = this.state;
+    const { activeUserId } = this.props;
+    const { login: name, avatar_url: url } = Users[activeUserId];
+    return (
+      <Main>
+        <StyledTypography>{name}</StyledTypography>
+        <ChatHistory>
+          {chat.map((obj, index) => {
+            const { msg, self, time } = obj;
+            const key = index + msg + self;
+            if (self) {
+              return (
+                <RightAlign key={key}>
+                  <BackGround color="#327ED8">
+                    <StyledTypography fontSize={15} color="white">
+                      {msg}
+                    </StyledTypography>
+                  </BackGround>
+                  <StyledTypography float="right" fontSize={15} opacity={0.7}>
+                    {time}
+                  </StyledTypography>
+                </RightAlign>
+              );
+            }
+            return (
+              <LeftAlign key={key}>
+                <ProfileWrapper>
+                  <ProfileDiv>
+                    <StyledImg src={url} />
+                  </ProfileDiv>
+                  <StyledTypography fontSize={15} opacity={0.7}>
+                    {time}
+                  </StyledTypography>
+                </ProfileWrapper>
+                <BackGround color="#c4c4c4">
+                  <StyledTypography fontSize={15}>{msg}</StyledTypography>
+                </BackGround>
+              </LeftAlign>
+            );
+          })}
+
+
+        </ChatHistory>
+        <StyledSearchBarWrapper>
+          <StyledI className="far fa-smile-wink" />
+          <StyledSearchBar placeholder="Type a message..." />
+          <StyledSendIcon className="far fa-paper-plane" />
+        </StyledSearchBarWrapper>
+      </Main>
+    );
+  }
+}
 ChatScreen.propTypes = {
   activeUserId: PropTypes.number.isRequired,
 };

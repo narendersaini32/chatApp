@@ -49,6 +49,7 @@ const ChatItemWrapper = styled.div`
   overflow: scroll;
   overflow-x: hidden;
   width: 103%;
+  height: 83%;
 `;
 const ChatItem = styled.div`
   background: #ffffff;
