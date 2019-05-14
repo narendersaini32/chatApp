@@ -103,16 +103,37 @@ const StyledSendIcon = styled.i`
 
 
 class ChatScreen extends PureComponent {
-  state={ chat: Chats }
+  state={ chat: Chats };
+
+
+  componentWillMount() {
+    this.input = React.createRef();
+  }
+
+  componentDidUpdate() {
+    const chatHistoryDiv = document.getElementById('chatHistory') || {};
+    chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
+  }
+
+  handleMessageSend = (value) => {
+    const time = new Date().toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
+    const newMsg = { msg: value, self: true, time };
+    this.setState((state) => {
+      const { chat = [] } = state;
+      return { chat: chat.concat(newMsg) };
+    });
+  }
+
 
   render() {
     const { chat } = this.state;
     const { activeUserId } = this.props;
     const { login: name, avatar_url: url } = Users[activeUserId];
+
     return (
       <Main>
         <StyledTypography>{name}</StyledTypography>
-        <ChatHistory>
+        <ChatHistory id="chatHistory">
           {chat.map((obj, index) => {
             const { msg, self, time } = obj;
             const key = index + msg + self;
@@ -146,12 +167,19 @@ class ChatScreen extends PureComponent {
               </LeftAlign>
             );
           })}
-
-
         </ChatHistory>
         <StyledSearchBarWrapper>
           <StyledI className="far fa-smile-wink" />
-          <StyledSearchBar placeholder="Type a message..." />
+          <StyledSearchBar
+            placeholder="Type a message..."
+            ref={this.input}
+            onKeyPress={({ key, target: { value } }) => {
+              if (key === 'Enter' && value) {
+                this.handleMessageSend(value);
+                this.input.current.value = '';
+              }
+            }}
+          />
           <StyledSendIcon className="far fa-paper-plane" />
         </StyledSearchBarWrapper>
       </Main>
