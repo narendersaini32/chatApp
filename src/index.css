@@ -16,3 +16,23 @@ code {
   display: flex;
   justify-content: center;
 }
+    /* width */
+    ::-webkit-scrollbar {
+      width: 3px;
+    }
+    
+    /* Track */
+    ::-webkit-scrollbar-track {
+      background: transparent; 
+    }
+     
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+      background:#9f6ee0; 
+    }
+    
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+      background: grey;; 
+    }
+    

@@ -163,7 +163,7 @@ const ChatScreen = (props) => {
           </ProfileWrapper>
           <BackGround color="#c4c4c4">
             <StyledTypography fontSize={15}>
-            I will write some random text for testing here.
+              <span role="img" aria-labelledby="">😁😄😄😀</span>
             </StyledTypography>
           </BackGround>
         </LeftAlign>

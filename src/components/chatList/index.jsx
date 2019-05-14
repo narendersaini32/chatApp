@@ -46,27 +46,8 @@ const ChatItemWrapper = styled.div`
   margin-top: 14px;
   overflow: scroll;
   overflow-x: hidden;
-  height:422px;
-  width: 102%;
-  /* width */
-&::-webkit-scrollbar {
-  width: 3px;
-}
-
-/* Track */
-&::-webkit-scrollbar-track {
-  background: transparent; 
-}
- 
-/* Handle */
-&::-webkit-scrollbar-thumb {
-  background:#9f6ee0; 
-}
-
-/* Handle on hover */
-&::-webkit-scrollbar-thumb:hover {
-  background: #e58abd;; 
-}
+  height:440px;
+  width: 103%;
 `;
 const ChatItem = styled.div`
   background: #ffffff;
