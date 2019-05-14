@@ -1,8 +1,10 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import { Picker } from 'emoji-mart';
 import Users from '../chatList/user';
 import Chats from './chat';
+import 'emoji-mart/css/emoji-mart.css';
 
 const Main = styled.div`
   margin-top: 4%;
@@ -70,7 +72,6 @@ const BackGround = styled.div`
   width: fit-content;
   float: right;
   margin-left: 10px;
-
 `;
 
 const RightAlign = styled.div`
@@ -114,11 +115,19 @@ const StyledSendIcon = styled.i`
   cursor: pointer;
 `;
 
+const EmojiWrapper = styled.div`
+  z-index: 1;
+  position: absolute;
+  top: 19%;
+`;
 class ChatScreen extends PureComponent {
   state = { chat: Chats };
 
   componentWillMount() {
     this.input = React.createRef();
+    document.addEventListener('click', (e) => {
+      if (e.target.id !== 'emojiWrapper' && e.target.id !== 'emojiIcon') { this.setState({ emojiPicker: false }); }
+    }, false);
   }
 
   componentDidMount() {
@@ -132,7 +141,7 @@ class ChatScreen extends PureComponent {
   scrollToBottom = () => {
     const chatHistoryDiv = document.getElementById('chatHistory') || {};
     chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
-  }
+  };
 
   handleMessageSend = (value) => {
     const time = new Date().toLocaleTimeString(navigator.language, {
@@ -146,8 +155,20 @@ class ChatScreen extends PureComponent {
     });
   };
 
+  toggleEmojiPicker = () => {
+    this.setState((state) => {
+      const { emojiPicker } = state;
+      return { emojiPicker: !emojiPicker };
+    });
+  };
+
+  handleEmojiClick = (emoji) => {
+    const { native } = emoji;
+    this.input.current.value = this.input.current.value + native;
+  }
+
   render() {
-    const { chat } = this.state;
+    const { chat, emojiPicker } = this.state;
     const { activeUserId } = this.props;
     const { login: name, avatar_url: url } = Users[activeUserId];
 
@@ -190,7 +211,7 @@ class ChatScreen extends PureComponent {
           })}
         </ChatHistory>
         <StyledSearchBarWrapper>
-          <StyledI className="far fa-smile-wink" />
+          <StyledI id="emojiIcon" className="far fa-smile-wink" onClick={this.toggleEmojiPicker} />
           <StyledSearchBar
             placeholder="Type a message..."
             ref={this.input}
@@ -203,6 +224,15 @@ class ChatScreen extends PureComponent {
           />
           <StyledSendIcon className="far fa-paper-plane" />
         </StyledSearchBarWrapper>
+        <EmojiWrapper id="emojiWrapper">
+          {emojiPicker && (
+          <Picker
+            set="google"
+            title=""
+            onClick={this.handleEmojiClick}
+          />
+          )}
+        </EmojiWrapper>
       </Main>
     );
   }
