@@ -5,10 +5,11 @@ import Users from './user';
 
 const Main = styled.div`
   display: flex;
-  margin-top: 10%;
+  margin-top: 4%;
   margin-left: 7%;
   flex-direction: column;
-  height:542px;
+  height: 608px;
+  width:27%;
 `;
 const StyledTypography = styled.div`
   ${props => `
@@ -33,9 +34,10 @@ const StyledSearchBarWrapper = styled.div`
   box-shadow: 1px 1px 13px rgba(0, 0, 0, 0.13);
   display: flex;
   align-items: center;
-  margin-top: 22px;
+  margin-top: 34px;
   border-radius: 25px;
-  width:376px;
+  width:300px;
+  position: absolute;
 `;
 const StyledI = styled.i`
   opacity: 0.7;
@@ -43,23 +45,23 @@ const StyledI = styled.i`
 `;
 
 const ChatItemWrapper = styled.div`
-  margin-top: 14px;
+  margin-top: 47px;
   overflow: scroll;
   overflow-x: hidden;
-  height:440px;
   width: 103%;
 `;
 const ChatItem = styled.div`
   background: #ffffff;
   box-shadow: ${props => `0px  4px 4px ${props.active ? 'rgb(166, 109, 219)' : 'rgba(0, 0, 0, 0.25)'} `};
   border-radius: 10px;
-  width: 376px;
+  width: 300px;
   height: 77px;
   display: flex;
   margin-top: 10px;
   margin-bottom: 10px;
   transition: 0.1s ease;
   cursor:pointer;
+  margin-left: 4px;
   &:hover {
     transform: scale(1.02);
   }
@@ -70,13 +72,14 @@ const ProfileDiv = styled.div`
   width: 48px;
   height: 48px;
   margin-left: 15px;
-`;
+  `;
 
 const StyledImg = styled.img`
   width: 48px;
   height: 48px;
   text-align: center;
   object-fit: cover;
+  border-radius:25px
 `;
 
 const ProfileWrapper = styled.div`
@@ -90,7 +93,7 @@ class ChatList extends PureComponent {
   handleSearch = (event) => {
     const searcjQery = event.target.value.toLowerCase();
     const users = Users.filter((el) => {
-      const searchValue = el.toLowerCase();
+      const searchValue = el.login.toLowerCase();
       return searchValue.indexOf(searcjQery) !== -1;
     });
     this.setState({
@@ -109,19 +112,19 @@ class ChatList extends PureComponent {
           <StyledSearchBar placeholder="Search" onChange={this.handleSearch} />
         </StyledSearchBarWrapper>
         <ChatItemWrapper>
-          {users.map((name, index) => (
+          {users.map(({ login, avatar_url: url }, index) => (
             <ChatItem
-              key={name + Number(index)}
+              key={login + Number(index)}
               onClick={() => { handleActiveUserId(index); }}
               active={activeUserId === index}
             >
               <ProfileWrapper>
                 <ProfileDiv>
-                  <StyledImg src="/images/male.png" />
+                  <StyledImg src={url} />
                 </ProfileDiv>
               </ProfileWrapper>
               <TextWrapper>
-                <StyledTypography fontSize={18} marginTop={17}>{name}</StyledTypography>
+                <StyledTypography fontSize={18} marginTop={17}>{login}</StyledTypography>
                 <StyledTypography fontSize={15} opacity={0.7}>
               Sample text of chatting
                 </StyledTypography>

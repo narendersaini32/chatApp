@@ -20,6 +20,7 @@ const StyledImg = styled.img`
   text-align: center;
   object-fit: cover;
   margin-top: 20%;
+  border-radius:25px;
 `;
 const StyledTypography = styled.div``;
 const NameAndIconWrapper = styled.div`
@@ -76,7 +77,7 @@ class SideBar extends PureComponent {
     return (
       <StyledSideBar>
         <ProfileDiv>
-          <StyledImg src="/images/male.png" />
+          <StyledImg src="https://avatars0.githubusercontent.com/u/210?v=4" />
           <NameAndIconWrapper>
             <StyledTypography>Naredner Saini </StyledTypography>
             <StyledI id="myProfileItems" marginLeft={20} className={iconName} onClick={() => { this.setState({ showMyProfile: !showMyProfile }); }} />
