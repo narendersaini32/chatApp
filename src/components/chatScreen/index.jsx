@@ -8,7 +8,7 @@ const Main = styled.div`
   margin-top: 4%;
   margin-left: 7%;
   width: 45%;
-  height:auto;
+  height: auto;
   position: relative;
   margin-right: 1px;
 `;
@@ -21,6 +21,9 @@ margin-top: ${props.marginTop || 0}px;
 opacity: ${props.opacity || 1};
 color:${props.color};
 float: ${props.float};
+max-width: 300px;
+word-break: break-all;
+text-transform: capitalize;
 `}
 `;
 
@@ -36,7 +39,7 @@ const StyledImg = styled.img`
   height: 48px;
   text-align: center;
   object-fit: cover;
-  border-radius:25px;
+  border-radius: 25px;
 `;
 
 const ProfileWrapper = styled.div`
@@ -46,26 +49,37 @@ const ProfileWrapper = styled.div`
 `;
 const ChatHistory = styled.div`
   margin-top: 10%;
-  height:442px;
-  overflow:scroll;
+  height: 442px;
+  overflow: scroll;
   overflow-x: hidden;
   margin-bottom: 14%;
+  display: flex;
+  flex-direction: column;
 `;
 
 const LeftAlign = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `;
 const BackGround = styled.div`
   background: ${props => props.color};
   border-radius: 50px;
   padding: 5px 11px 5px 3px;
+  width: fit-content;
+  float: right;
+  margin-left: 10px;
+
 `;
 
 const RightAlign = styled.div`
-  float: right;
   margin-right: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  margin-top: 30px;
+  margin-bottom: 30px;
 `;
 
 const StyledSearchBar = styled.input`
@@ -86,44 +100,51 @@ const StyledSearchBarWrapper = styled.div`
   margin-top: 22px;
   bottom: 25px;
   position: absolute;
-  width:96%;
+  width: 96%;
 `;
 const StyledI = styled.i`
   opacity: 0.7;
   margin-left: 10px;
-  cursor:pointer;
-
+  cursor: pointer;
 `;
 
 const StyledSendIcon = styled.i`
   opacity: 0.7;
   margin-right: 10px;
-  cursor:pointer;
+  cursor: pointer;
 `;
 
-
 class ChatScreen extends PureComponent {
-  state={ chat: Chats };
-
+  state = { chat: Chats };
 
   componentWillMount() {
     this.input = React.createRef();
   }
 
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
   componentDidUpdate() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
     const chatHistoryDiv = document.getElementById('chatHistory') || {};
     chatHistoryDiv.scrollTop = chatHistoryDiv.scrollHeight;
   }
 
   handleMessageSend = (value) => {
-    const time = new Date().toLocaleTimeString(navigator.language, { hour: '2-digit', minute: '2-digit' });
+    const time = new Date().toLocaleTimeString(navigator.language, {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
     const newMsg = { msg: value, self: true, time };
     this.setState((state) => {
       const { chat = [] } = state;
       return { chat: chat.concat(newMsg) };
     });
-  }
-
+  };
 
   render() {
     const { chat } = this.state;
@@ -132,7 +153,7 @@ class ChatScreen extends PureComponent {
 
     return (
       <Main>
-        <StyledTypography>{name}</StyledTypography>
+        <StyledTypography fontSize={22}>{name}</StyledTypography>
         <ChatHistory id="chatHistory">
           {chat.map((obj, index) => {
             const { msg, self, time } = obj;
