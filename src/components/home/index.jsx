@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import SideBar from '../sidebar';
 import ChatList from '../chatList';
 import ChatScreen from '../chatScreen';
+import { Socket } from '../../util';
 
 const Main = styled.div`
   width: 100%;
@@ -15,6 +16,13 @@ const Main = styled.div`
 
 class Home extends PureComponent {
   state={ activeUserId: 0 }
+
+  componentWillMount() {
+    Socket.on('news', (data) => {
+      console.log(data);
+      Socket.emit('my other event', { my: 'data' });
+    });
+  }
 
   handleActiveUserId = (activeUserId) => {
     this.setState({ activeUserId });

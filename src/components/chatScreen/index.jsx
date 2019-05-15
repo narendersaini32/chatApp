@@ -125,9 +125,10 @@ class ChatScreen extends PureComponent {
 
   componentWillMount() {
     this.input = React.createRef();
-    document.addEventListener('click', (e) => {
-      if (e.target.id !== 'emojiWrapper' && e.target.id !== 'emojiIcon') { this.setState({ emojiPicker: false }); }
-    }, false);
+    // document.addEventListener('click', (e) => {
+    //   if (e.target.id !== 'emojiWrapper'
+    // && e.target.id !== 'emojiIcon') { this.setState({ emojiPicker: false }); }
+    // }, false);
   }
 
   componentDidMount() {
