@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
 import Users from '../chatList/user';
-import Chats from './chat';
+import { Socket } from '../../util';
 import 'emoji-mart/css/emoji-mart.css';
 
 const Main = styled.div`
@@ -121,7 +121,7 @@ const EmojiWrapper = styled.div`
   top: 19%;
 `;
 class ChatScreen extends PureComponent {
-  state = { chat: Chats };
+  state = { chat: [] };
 
   componentWillMount() {
     this.input = React.createRef();
@@ -129,6 +129,10 @@ class ChatScreen extends PureComponent {
     //   if (e.target.id !== 'emojiWrapper'
     // && e.target.id !== 'emojiIcon') { this.setState({ emojiPicker: false }); }
     // }, false);
+    Socket.emit('getChatHistory');
+    Socket.on('all', (chat) => {
+      this.setState({ chat });
+    });
   }
 
   componentDidMount() {
