@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import { Picker } from 'emoji-mart';
-import Users from '../chatList/user';
 import { Socket } from '../../util';
 import 'emoji-mart/css/emoji-mart.css';
 
@@ -63,7 +62,7 @@ const LeftAlign = styled.div`
   display: flex;
   align-items: center;
   margin-top: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 40px;
 `;
 const BackGround = styled.div`
   background: ${props => props.color};
@@ -130,7 +129,7 @@ class ChatScreen extends PureComponent {
     // && e.target.id !== 'emojiIcon') { this.setState({ emojiPicker: false }); }
     // }, false);
     Socket.emit('getChatHistory');
-    Socket.on('all', (chat) => {
+    Socket.on('chatHistory', (chat) => {
       this.setState({ chat });
     });
   }
@@ -153,11 +152,8 @@ class ChatScreen extends PureComponent {
       hour: '2-digit',
       minute: '2-digit',
     });
-    const newMsg = { msg: value, self: true, time };
-    this.setState((state) => {
-      const { chat = [] } = state;
-      return { chat: chat.concat(newMsg) };
-    });
+    const newMsg = { msg: value, time };
+    Socket.emit('insertChat', newMsg);
   };
 
   toggleEmojiPicker = () => {
@@ -174,12 +170,12 @@ class ChatScreen extends PureComponent {
 
   render() {
     const { chat, emojiPicker } = this.state;
-    const { activeUserId } = this.props;
-    const { login: name, avatar_url: url } = Users[activeUserId];
+    const { activeUserId, users } = this.props;
+    const { userName, src } = users[activeUserId];
 
     return (
       <Main>
-        <StyledTypography fontSize={22}>{name}</StyledTypography>
+        <StyledTypography fontSize={22}>{userName}</StyledTypography>
         <ChatHistory id="chatHistory">
           {chat.map((obj, index) => {
             const { msg, self, time } = obj;
@@ -202,7 +198,7 @@ class ChatScreen extends PureComponent {
               <LeftAlign key={key}>
                 <ProfileWrapper>
                   <ProfileDiv>
-                    <StyledImg src={url} />
+                    <StyledImg src={src} />
                   </ProfileDiv>
                   <StyledTypography fontSize={15} opacity={0.7}>
                     {time}
@@ -244,5 +240,7 @@ class ChatScreen extends PureComponent {
 }
 ChatScreen.propTypes = {
   activeUserId: PropTypes.number.isRequired,
+  users: PropTypes.arrayOf(Object).isRequired,
+
 };
 export default ChatScreen;

@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
-import Users from './user';
 
 const Main = styled.div`
   display: flex;
@@ -89,12 +88,27 @@ const ProfileWrapper = styled.div`
 `;
 const TextWrapper = styled.div``;
 class ChatList extends PureComponent {
-  state={ users: Users };
+  state={ users: [] };
+
+  componentWillMount() {
+    const { users } = this.props;
+    this.setUsers(users);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { users } = nextProps;
+    this.setUsers(users);
+  }
+
+  setUsers = (users) => {
+    this.setState({ users });
+  }
 
   handleSearch = (event) => {
+    let { users } = this.props;
     const searcjQery = event.target.value.toLowerCase();
-    const users = Users.filter((el) => {
-      const searchValue = el.login.toLowerCase();
+    users = users.filter((el) => {
+      const searchValue = el.userName.toLowerCase();
       return searchValue.indexOf(searcjQery) !== -1;
     });
     this.setState({
@@ -113,19 +127,19 @@ class ChatList extends PureComponent {
           <StyledSearchBar placeholder="Search" onChange={this.handleSearch} />
         </StyledSearchBarWrapper>
         <ChatItemWrapper>
-          {users.map(({ login, avatar_url: url }, index) => (
+          {users.map(({ userName, src }, index) => (
             <ChatItem
-              key={login + Number(index)}
+              key={userName + Number(index)}
               onClick={() => { handleActiveUserId(index); }}
               active={activeUserId === index}
             >
               <ProfileWrapper>
                 <ProfileDiv>
-                  <StyledImg src={url} />
+                  <StyledImg src={src} />
                 </ProfileDiv>
               </ProfileWrapper>
               <TextWrapper>
-                <StyledTypography fontSize={18} marginTop={17}>{login}</StyledTypography>
+                <StyledTypography fontSize={18} marginTop={17}>{userName}</StyledTypography>
                 <StyledTypography fontSize={15} opacity={0.7}>
               Sample text of chatting
                 </StyledTypography>
@@ -141,5 +155,6 @@ class ChatList extends PureComponent {
 ChatList.propTypes = {
   handleActiveUserId: PropTypes.func.isRequired,
   activeUserId: PropTypes.number.isRequired,
+  users: PropTypes.arrayOf(Object).isRequired,
 };
 export default ChatList;
