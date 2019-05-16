@@ -17,6 +17,8 @@ font-size: ${props.fontSize}px;
 font-weight: 400;
 margin-top: ${props.marginTop || 0}px;
 opacity: ${props.opacity || 1};
+text-transform: capitalize;
+
 `}
 `;
 const StyledSearchBar = styled.input`
@@ -87,6 +89,7 @@ const ProfileWrapper = styled.div`
   display: flex;
 `;
 const TextWrapper = styled.div``;
+
 class ChatList extends PureComponent {
   state={ users: [] };
 
@@ -118,7 +121,7 @@ class ChatList extends PureComponent {
 
   render() {
     const { users } = this.state;
-    const { handleActiveUserId, activeUserId } = this.props;
+    const { handleActiveUser, activeUser } = this.props;
     return (
       <Main>
         <StyledTypography fontSize={21}>Chats</StyledTypography>
@@ -127,34 +130,37 @@ class ChatList extends PureComponent {
           <StyledSearchBar placeholder="Search" onChange={this.handleSearch} />
         </StyledSearchBarWrapper>
         <ChatItemWrapper>
-          {users.map(({ userName, src }, index) => (
-            <ChatItem
-              key={userName + Number(index)}
-              onClick={() => { handleActiveUserId(index); }}
-              active={activeUserId === index}
-            >
-              <ProfileWrapper>
-                <ProfileDiv>
-                  <StyledImg src={src} />
-                </ProfileDiv>
-              </ProfileWrapper>
-              <TextWrapper>
-                <StyledTypography fontSize={18} marginTop={17}>{userName}</StyledTypography>
-                <StyledTypography fontSize={15} opacity={0.7}>
-              Sample text of chatting
-                </StyledTypography>
-              </TextWrapper>
-              {/* {index === 2 && <StyledPosition />} */}
-            </ChatItem>
-          ))}
+          {users.map((obj, index) => {
+            const { userName, src, _id } = obj;
+            return (
+              <ChatItem
+                key={userName + Number(index)}
+                onClick={() => { handleActiveUser(obj); }}
+                active={activeUser._id === _id}
+              >
+                <ProfileWrapper>
+                  <ProfileDiv>
+                    <StyledImg src={src} />
+                  </ProfileDiv>
+                </ProfileWrapper>
+                <TextWrapper>
+                  <StyledTypography fontSize={18} marginTop={17}>{userName}</StyledTypography>
+                  <StyledTypography fontSize={15} opacity={0.7}>
+            Sample text of chatting
+                  </StyledTypography>
+                </TextWrapper>
+                {/* {index === 2 && <StyledPosition />} */}
+              </ChatItem>
+            );
+          })}
         </ChatItemWrapper>
       </Main>
     );
   }
 }
 ChatList.propTypes = {
-  handleActiveUserId: PropTypes.func.isRequired,
-  activeUserId: PropTypes.number.isRequired,
+  handleActiveUser: PropTypes.func.isRequired,
+  activeUser: PropTypes.instanceOf(Object).isRequired,
   users: PropTypes.arrayOf(Object).isRequired,
 };
 export default ChatList;

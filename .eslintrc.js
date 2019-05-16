@@ -20,6 +20,7 @@ module.exports = {
     'react',
   ],
   rules: {
-    "import/prefer-default-export":0
+    "import/prefer-default-export":0,
+    "no-underscore-dangle":0
   },
 };

@@ -128,18 +128,27 @@ class ChatScreen extends PureComponent {
     //   if (e.target.id !== 'emojiWrapper'
     // && e.target.id !== 'emojiIcon') { this.setState({ emojiPicker: false }); }
     // }, false);
-    Socket.emit('getChatHistory');
-    Socket.on('chatHistory', (chat) => {
-      this.setState({ chat });
-    });
+    this.getLatestChat(this.props);
   }
+
 
   componentDidMount() {
     this.scrollToBottom();
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.getLatestChat(nextProps);
+  }
+
   componentDidUpdate() {
     this.scrollToBottom();
+  }
+
+  getLatestChat = (props) => {
+    Socket.emit('getChatHistory', this.getFilter(props));
+    Socket.on('chatHistory', (chat) => {
+      this.setState({ chat });
+    });
   }
 
   scrollToBottom = () => {
@@ -148,13 +157,25 @@ class ChatScreen extends PureComponent {
   };
 
   handleMessageSend = (value) => {
-    const time = new Date().toLocaleTimeString(navigator.language, {
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-    const newMsg = { msg: value, time };
-    Socket.emit('insertChat', newMsg);
+    // const time = new Date().toLocaleTimeString(navigator.language, {
+    //   hour: '2-digit',
+    //   minute: '2-digit',
+    // });
+    const {
+      currentLoginUser: { _id: from, userName: fromUserName },
+      activeUser: { _id: to, userName: toUserName },
+    } = this.props;
+    const newMsg = {
+      msg: value, from, to, toUserName, fromUserName,
+    };
+
+    Socket.emit('insertChat', newMsg, this.getFilter(this.props));
   };
+
+  getFilter = (props) => {
+    const { currentLoginUser: { _id: from }, activeUser: { _id: to } } = props;
+    return { $or: [{ from, to }, { from: to, to: from }] };
+  }
 
   toggleEmojiPicker = () => {
     this.setState((state) => {
@@ -170,17 +191,24 @@ class ChatScreen extends PureComponent {
 
   render() {
     const { chat, emojiPicker } = this.state;
-    const { activeUserId, users } = this.props;
-    const { userName, src } = users[activeUserId];
+    const { activeUser: { userName, src, _id } } = this.props;
 
     return (
       <Main>
         <StyledTypography fontSize={22}>{userName}</StyledTypography>
         <ChatHistory id="chatHistory">
           {chat.map((obj, index) => {
-            const { msg, self, time } = obj;
-            const key = index + msg + self;
-            if (self) {
+            const {
+              msg, from, to, timeStamp = new Date(),
+            } = obj;
+            const key = index + msg + from;
+            const time = new Date(timeStamp).toLocaleTimeString(navigator.language, {
+              hour: '2-digit',
+              minute: '2-digit',
+            });
+            console.log(': ChatScreen -> render -> _id', _id);
+            console.log(': ChatScreen -> render -> from', from);
+            if (to !== _id) {
               return (
                 <RightAlign key={key}>
                   <BackGround color="#327ED8">
@@ -239,8 +267,7 @@ class ChatScreen extends PureComponent {
   }
 }
 ChatScreen.propTypes = {
-  activeUserId: PropTypes.number.isRequired,
-  users: PropTypes.arrayOf(Object).isRequired,
-
+  activeUser: PropTypes.instanceOf(Object).isRequired,
+  currentLoginUser: PropTypes.instanceOf(Object).isRequired,
 };
 export default ChatScreen;

@@ -1,5 +1,6 @@
 import React, { PureComponent } from 'react';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 import MenuItem from './menuItem';
 
 const StyledSideBar = styled.div`
@@ -22,7 +23,9 @@ const StyledImg = styled.img`
   margin-top: 20%;
   border-radius:25px;
 `;
-const StyledTypography = styled.div``;
+const StyledTypography = styled.div`
+text-transform: capitalize;
+`;
 const NameAndIconWrapper = styled.div`
   display: flex;
   justify-content: space-between;
@@ -68,18 +71,21 @@ font-size: 17px;
 class SideBar extends PureComponent {
   state={};
 
+
   render() {
     const { showMyProfile } = this.state;
     document.addEventListener('click', (e) => {
       if (e.target.id !== 'myProfileItems') { this.setState({ showMyProfile: false }); }
     }, false);
     const iconName = showMyProfile ? 'fas fa-chevron-up' : 'fas fa-chevron-down';
+    const { currentLoginUser: { userName, src }, logoutUser } = this.props;
     return (
       <StyledSideBar>
+
         <ProfileDiv>
-          <StyledImg src="https://avatars0.githubusercontent.com/u/210?v=4" />
+          <StyledImg src={src} />
           <NameAndIconWrapper>
-            <StyledTypography>Narender Saini </StyledTypography>
+            <StyledTypography>{userName}</StyledTypography>
             <StyledI id="myProfileItems" marginLeft={20} className={iconName} onClick={() => { this.setState({ showMyProfile: !showMyProfile }); }} />
             <MyProfileItems showMyProfile={showMyProfile}>
               <MyProfileItem>
@@ -90,16 +96,22 @@ class SideBar extends PureComponent {
                 <StyledI className="far fa-question-circle" marginRight={6} />
                     Faq
               </MyProfileItem>
-              <MyProfileItem>
+              <MyProfileItem onClick={logoutUser}>
                 <StyledI className="fas fa-sign-out-alt" marginRight={6} />
                     Logout
               </MyProfileItem>
             </MyProfileItems>
           </NameAndIconWrapper>
         </ProfileDiv>
+
+
         <MenuItem />
       </StyledSideBar>
     );
   }
 }
+SideBar.propTypes = {
+  currentLoginUser: PropTypes.instanceOf(Object).isRequired,
+  logoutUser: PropTypes.func.isRequired,
+};
 export default SideBar;
